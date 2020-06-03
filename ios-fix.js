@@ -2,6 +2,7 @@
  * @version         1.0.0
  * @author          Ivijan-Stefan Stipić <creativform@gmail.com>
  * @website         https://infinitumform.com/
+ * @source          https://github.com/CreativForm/Fix-missing-SVG-images-for-the-iPhone
 =======================================================*/
 ;(function(DOC, WIN, NAV){
 	// Find user agent
