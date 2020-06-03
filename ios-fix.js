@@ -5,7 +5,10 @@
 =======================================================*/
 ;(function(DOC, WIN, NAV){
 	// Find user agent
-	const agent = NAV.userAgent.toLowerCase(); 
+	const agent = NAV.userAgent.toLowerCase();
+	// Cache control
+	const cache_control = true;
+	
 	var isSafari = false,
 		isChrome = false;
 
@@ -85,7 +88,7 @@
 				image.parentNode.replaceChild(object, image);
 				
 				// Append SRC with caching control
-				if(/[\?\&]/.test(object.src))
+				if(/[\?\&]/.test(object.src) || !cache_control)
 					object.data = image.src;
 				else {
 					var cache = (image.width*image.height);
