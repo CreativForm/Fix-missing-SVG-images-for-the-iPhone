@@ -1,5 +1,5 @@
 /* Fix missing SVG images for the iPhone
- * @version         1.0.0
+ * @version         1.1.0
  * @author          Ivijan-Stefan Stipić <creativform@gmail.com>
  * @website         https://infinitumform.com/
  * @source          https://github.com/CreativForm/Fix-missing-SVG-images-for-the-iPhone
@@ -10,41 +10,50 @@
 	// Cache control
 	const cache_control = true;
 	
-	var isSafari = false,
-		isChrome = false;
+	var browser, image;
 
-	if (agent.indexOf('safari') != -1) { 
-		if (agent.indexOf('chrome') > -1) {
-			// Chrome
-			isChrome = true;
-		} else {
-			// Safari
-			isSafari = true;
+	if (/edge|edg\/[0-9.]+/i.test(agent)) {
+		// Chrome
+		browser = 'edge';
+	} else if (/(\.net|\.net[0-9.]+|msie|ie|trident)/i.test(agent)) {
+		// Chrome
+		browser = 'ie';
+	} else if (/(opera|opr)/i.test(agent)) {
+		// Chrome
+		browser = 'opera';
+	} else if (/(gecko|firefox)\/[0-9.]+/i.test(agent)) {
+		// Mozilla
+		browser = 'mozilla';
+	} else if (/chrome\/[0-9.]+/i.test(agent)) {
+		// Chrome
+		browser = 'chrome';
+	} else {
+		// Safari
+		browser = 'safari';
+	}
+
+	if(browser != 'safari'){
+		if(/iPad|iPhone|iPod/i.test(agent) && !WIN.MSStream){
+			browser = 'safari';
 		}
 	}
 	
-	if(!isSafari){
-		isSafari = /iPad|iPhone|iPod/i.test(agent) && !WIN.MSStream;
-		if(isSafari){
-			isChrome = false;
-		}
-	}
-	
-	/* Is Chrome - TO DO */
-	if(isChrome)
+	/* Set classes to body */
+	if(browser)
 	{
-		DOC.body.classList.add("is-chrome");
+		DOC.body.classList.add('is-' + browser);
 	}
-	
+
 	/* Is Safari on the iOS */
-	if(isSafari)
+	if(browser == 'safari')
 	{
 		// Append to body  is-ios class
 		DOC.body.classList.add("is-ios");
 		
 		// Loop all images
 		var images = DOC.querySelectorAll('img');
-		images.forEach(function(image){
+		for(i = 0; i<images.length; i++){
+			image = images[i];
 			// Find only SVG images
 			if(image.src.indexOf('.svg') > -1){
 				var object = document.createElement("object");
@@ -101,6 +110,6 @@
 				delete image;
 				delete object;
 			}
-		});
+		}
 	}
 }( document, window, navigator ));
